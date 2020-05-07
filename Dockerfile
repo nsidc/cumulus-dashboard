@@ -1,6 +1,10 @@
 FROM node:10-slim
 
-RUN apt-get update && apt-get install -y git
+RUN apt-get update && \
+    apt-get install -y \
+      git \
+      make \
+      python3
 
 RUN mkdir /dashboard
 WORKDIR /dashboard
