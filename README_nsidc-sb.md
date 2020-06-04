@@ -97,6 +97,7 @@ Requirements:
 Run:
 
 ```
+nvm use
 npm install # install dependencies
 APIROOT=https://${API_SUBDOMAIN}.execute-api.us-west-2.amazonaws.com:8000/dev/ npm run serve
 ```
