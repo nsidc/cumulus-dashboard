@@ -3,7 +3,7 @@ services:
 
   dashboard:
     build: .
-    image: cumulus-dashboard:nsidc-sb
+    image: cumulus-dashboard:nsidc
     environment:
       - APIROOT
     ports:
