@@ -23,7 +23,7 @@
     "serve": "NODE_ENV=development webpack-dev-server --open --config webpack.dev.js  --host 0.0.0.0",
     "serve-hot": "NODE_ENV=development webpack-dev-server --open --hot --config webpack.dev.js",
     "serve-cypress": "SHOW_DISTRIBUTION_API_METRICS=true ESROOT=http://example.com npm run serve",
-    "build": "NODE_ENV=production webpack --config webpack.prod.js",
+    "build": "NODE_ENV=production webpack --config webpack.prod.js --profile",
     "watch": "webpack --watch",
     "lint": "eslint app/src/js/ --ext .js",
     "lint-fix": "eslint --fix app/src/js/ --ext .js",
