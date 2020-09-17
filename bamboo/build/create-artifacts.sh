@@ -12,8 +12,8 @@ set -e
 # ESROOT_SIT=${bamboo.ESROOT_SIT}
 # ESROOT_UAT=${bamboo.ESROOT_UAT}
 # ESROOT_development=${bamboo.ESROOT_development}
-# ES_PASSWORD=${bamboo.ESROOT_PASSWORD}
-# ES_USER=${bamboo.ESROOT_USER}
+# ES_PASSWORD=${bamboo.ES_PASSWORD}
+# ES_USER=${bamboo.ES_USER}
 # HIDE_PDR=${bamboo.HIDE_PDR}
 # KIBANAROOT_PROD=${bamboo.KIBANAROOT_PROD}
 # KIBANAROOT_SIT=${bamboo.KIBANAROOT_SIT}
