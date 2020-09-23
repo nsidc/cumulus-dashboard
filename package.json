@@ -42,7 +42,9 @@
     "stop-dashboard": "docker-compose -f ./localAPI/docker-compose.yml -f ./localAPI/docker-compose-serve-api.yml -f ./localAPI/docker-compose-dashboard.yml down",
     "e2e-tests": "docker-compose -f ./localAPI/docker-compose.yml -f ./localAPI/docker-compose-serve-api.yml -f ./localAPI/docker-compose-dashboard.yml -f ./localAPI/docker-compose-cypress.yml up --exit-code-from=e2e --abort-on-container-exit",
     "validation-tests": "docker-compose -f ./localAPI/docker-compose.yml -f ./localAPI/docker-compose-serve-api.yml -f ./localAPI/docker-compose-dashboard.yml -f ./localAPI/docker-compose-validate.yml up --exit-code-from=validate --abort-on-container-exit",
-    "view-docker-logs": "docker-compose -f ./localAPI/docker-compose.yml -f ./localAPI/docker-compose-serve-api.yml -f ./localAPI/docker-compose-dashboard.yml logs -f "
+    "view-docker-logs": "docker-compose -f ./localAPI/docker-compose.yml -f ./localAPI/docker-compose-serve-api.yml -f ./localAPI/docker-compose-dashboard.yml logs -f ",
+    "snyk-protect": "snyk protect",
+    "prepare": "npm run snyk-protect"
   },
   "ava": {},
   "browserslist": {
@@ -163,7 +165,7 @@
     "jquery": "3.5.0",
     "jsonwebtoken": "^8.4.0",
     "localized-strings": "0.0.11",
-    "lodash": "^4.17.15",
+    "lodash": "^4.17.20",
     "lodash.clonedeep": "^4.5.0",
     "lodash.debounce": "^4.0.8",
     "lodash.findkey": "^4.6.0",
@@ -211,6 +213,8 @@
     "shortid": "^2.2.6",
     "slugify": "^1.1.0",
     "stubborn-queue": "^2.0.0",
-    "url": "^0.11.0"
-  }
+    "url": "^0.11.0",
+    "snyk": "^1.399.1"
+  },
+  "snyk": true
 }
