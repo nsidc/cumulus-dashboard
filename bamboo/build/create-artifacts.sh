@@ -38,6 +38,10 @@ for stage in development SIT UAT PROD; do
     ESROOT_VAR=ESROOT_${stage}
     ESROOT=${!ESROOT_VAR}
 
+    if [ ${stage} = "development" ]; then
+        SERVED_BY_CUMULUS_API=true
+    fi
+
     docker run \
         --rm \
         --volume $(pwd)/artifacts:/artifacts \
