@@ -29,7 +29,6 @@ aws --profile=${AWS_PROFILE} ssm start-session \
     --target ${INSTANCE_ID} \
     --document-name AWS-StartPortForwardingSession \
     --parameters portNumber=22,localPortNumber=${LOCAL_PORT} > backingfile &
-SSM_PID=$!
 
 sleep 5
 
@@ -40,7 +39,6 @@ read <&3 line
 SESSION_ID=$(read <&3 line | awk '{print $5}')
 
 ssh -p ${LOCAL_PORT} -L 8000:${HOST}:443 -i ${EC2_KEY} ec2-user@127.0.0.1 -N &
-SSH_PID=$!
 
 URL=https://${HOST}:8000/dev/dashboard/${PREFIX}-dashboard/index.html
 echo "URL=${URL}"
