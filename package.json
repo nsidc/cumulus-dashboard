@@ -141,7 +141,7 @@
     "webpackbar": "^4.0.0"
   },
   "dependencies": {
-    "@cumulus/cmrjs": "1.11.0",
+    "@cumulus/cmrjs": "2.0.7",
     "@fortawesome/fontawesome-free": "^5.12.1",
     "@fortawesome/fontawesome-svg-core": "^1.2.25",
     "@fortawesome/free-solid-svg-icons": "^5.11.2",
