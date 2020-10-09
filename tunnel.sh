@@ -3,7 +3,7 @@
 AWS_PROFILE=sandbox
 LOCAL_PORT=6789
 EC2_KEY=~/.ssh/nsidc-sb.pem
-PREFIX=nsidc-cumulus-dev
+PREFIX=nsidc-cumulus-sbx
 
 API_SUBDOMAIN=$(aws --profile=${AWS_PROFILE} apigateway get-rest-apis | jq -r ".[] | map(select(.name == \"${PREFIX}-archive\")) | .[].id")
 
@@ -40,7 +40,7 @@ SESSION_ID=$(read <&3 line | awk '{print $5}')
 
 ssh -p ${LOCAL_PORT} -L 8000:${HOST}:443 -i ${EC2_KEY} ec2-user@127.0.0.1 -N &
 
-URL=https://${HOST}:8000/dev/dashboard/${PREFIX}-dashboard/index.html
+URL=https://${HOST}:8000/sbx/dashboard/${PREFIX}-dashboard/index.html
 echo "URL=${URL}"
 
 function cleanup() {
