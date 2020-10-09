@@ -10,7 +10,7 @@ their actual values (i.e., you can't just set them as environment variables).
   Console](https://us-west-2.console.aws.amazon.com/apigateway/main/apis?region=us-west-2);
   choose the `${PREFIX}-archive` API, then click "Dashboard", and this text will
   be near the top of the screen: `Invoke this API at:
-  https://${API_SUBDOMAIN}.execute-api.us-west-2.amazonaws.com/dev/`
+  https://${API_SUBDOMAIN}.execute-api.us-west-2.amazonaws.com/sbx/`
 * `INSTANCE_ID` - the ID of the EC2 instance named
   `${PREFIX}-CumulusECSCluster`, can be retrived from the [AWS Console, EC2
   Instances
@@ -82,7 +82,7 @@ Requirements:
 Run:
 
 ```
-export APIROOT=https://${API_SUBDOMAIN}.execute-api.us-west-2.amazonaws.com:8000/dev/
+export APIROOT=https://${API_SUBDOMAIN}.execute-api.us-west-2.amazonaws.com:8000/sbx/
 docker-compose up
 ```
 
@@ -99,7 +99,7 @@ Run:
 ```
 nvm use
 npm install # install dependencies
-APIROOT=https://${API_SUBDOMAIN}.execute-api.us-west-2.amazonaws.com:8000/dev/ npm run serve
+APIROOT=https://${API_SUBDOMAIN}.execute-api.us-west-2.amazonaws.com:8000/sbx/ npm run serve
 ```
 
 ## 6. Navigate to http://localhost:3000 in your browser, log in via EDL
