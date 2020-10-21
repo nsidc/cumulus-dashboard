@@ -143,7 +143,7 @@
     "webpackbar": "^4.0.0"
   },
   "dependencies": {
-    "@cumulus/cmrjs": "2.0.7",
+    "@cumulus/cmrjs": "1.11.0",
     "@fortawesome/fontawesome-free": "^5.12.1",
     "@fortawesome/fontawesome-svg-core": "^1.2.25",
     "@fortawesome/free-solid-svg-icons": "^5.11.2",
@@ -166,12 +166,12 @@
     "jquery": "3.5.0",
     "jsonwebtoken": "^8.4.0",
     "localized-strings": "0.0.11",
-    "lodash": "^4.17.20",
+    "lodash": "^4.17.19",
     "moment": "^2.17.1",
     "normalize-opentype.css": "^0.2.4",
     "normalize.css": "^8.0.1",
     "numeral": "^2.0.4",
-    "object-path": "^0.11.5",
+    "object-path": "^0.11.3",
     "paginator": "^1.0.0",
     "popper.js": "^1.14.7",
     "prop-types": "^15.5.10",
