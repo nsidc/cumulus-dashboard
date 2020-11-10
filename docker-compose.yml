@@ -1,0 +1,13 @@
+version: '3'
+services:
+
+  dashboard:
+    build: .
+    image: cumulus-dashboard:nsidc
+    environment:
+      - APIROOT
+    ports:
+      - "3000:3000"
+    volumes:
+      - "./:/dashboard"
+      - /dashboard/node_modules
