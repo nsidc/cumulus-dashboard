@@ -9,7 +9,7 @@ TAG=$(git describe --tags --abbrev=0)
 COMMIT=$(git rev-parse --short HEAD)
 cd -
 
-RELEASE_VERSION_NAME=${TAG}-${COMMIT}
+RELEASE_VERSION_NAME=${TAG}
 
 set -x
 
