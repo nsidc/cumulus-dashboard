@@ -12,7 +12,10 @@ set -e
 # ESROOT_SIT=${bamboo.ESROOT_SIT}
 # ESROOT_UAT=${bamboo.ESROOT_UAT}
 # ESROOT_development=${bamboo.ESROOT_development}
-# ES_PASSWORD=${bamboo.ES_PASSWORD}
+# ES_PASSWORD_PROD=${bamboo.ES_PASSWORD_PROD}
+# ES_PASSWORD_SIT=${bamboo.ES_PASSWORD_SIT}
+# ES_PASSWORD_UAT=${bamboo.ES_PASSWORD_UAT}
+# ES_PASSWORD_development=${bamboo.ES_PASSWORD_development}
 # ES_USER_PROD=${bamboo.ES_USER_PROD}
 # ES_USER_SIT=${bamboo.ES_USER_SIT}
 # ES_USER_UAT=${bamboo.ES_USER_UAT}
@@ -43,6 +46,9 @@ for stage in development SIT UAT PROD; do
 
     ES_USER_VAR=ES_USER_${stage}
     ES_USER=${!ES_USER_VAR}
+
+    ES_PASSWORD_VAR=ES_PASSWORD_${stage}
+    ES_PASSWORD=${!ES_PASSWORD_VAR}
 
     if [ ${stage} = "development" ]; then
         cumulus_api=true
