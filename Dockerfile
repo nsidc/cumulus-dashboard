@@ -1,6 +1,4 @@
-# image from Docker Hub: node:12-slim
-ARG image=maven.earthdata.nasa.gov/node:12-slim
-FROM ${image}
+FROM maven.earthdata.nasa.gov/node:12-slim
 
 RUN apt-get update && \
     apt-get install -y \
