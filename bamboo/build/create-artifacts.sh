@@ -50,16 +50,10 @@ for stage in development SIT UAT PROD; do
     ES_PASSWORD_VAR=ES_PASSWORD_${stage}
     ES_PASSWORD=${!ES_PASSWORD_VAR}
 
-    if [ ${stage} = "development" ]; then
-        cumulus_api=true
-    else
-        cumulus_api=${SERVED_BY_CUMULUS_API}
-    fi
-
     docker run \
         --rm \
         --volume $(pwd)/artifacts:/artifacts \
         cumulus-dashboard:nsidc \
-        bash -c "set -x; KIBANAROOT=${KIBANAROOT} ESROOT=${ESROOT} ES_USER=${ES_USER} ES_PASSWORD=${ES_PASSWORD} APIROOT=${APIROOT} STAGE=${stage} SERVED_BY_CUMULUS_API=${cumulus_api} DAAC_NAME=${DAAC_NAME} HIDE_PDR=${HIDE_PDR} LABELS=${LABELS} npm run build;\
+        bash -c "set -x; KIBANAROOT=${KIBANAROOT} ESROOT=${ESROOT} ES_USER=${ES_USER} ES_PASSWORD=${ES_PASSWORD} APIROOT=${APIROOT} STAGE=${stage} SERVED_BY_CUMULUS_API=${SERVED_BY_CUMULUS_API} DAAC_NAME=${DAAC_NAME} HIDE_PDR=${HIDE_PDR} LABELS=${LABELS} npm run build;\
                  tar -cvzf /artifacts/cumulus-dashboard-dist-${stage}.tar.gz dist"
 done
