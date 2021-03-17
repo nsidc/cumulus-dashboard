@@ -60,12 +60,13 @@ function cleanup() {
 trap cleanup SIGINT
 
 echo ""
-echo "This script must use \`sudo ssh\` to bind your host's port 443 to port 443 on the SSM host."
+echo "This script uses \`sudo ssh\` to bind your host's port 443 to port 443 on the SSM host."
 echo "You may be prompted for your password."
 read -p "Press ^C to exit, or Enter to continue. " continue
-echo ""
 
-sudo ssh -p ${LOCAL_PORT} -L 443:${HOST}:443 -i ${EC2_KEY} ec2-user@127.0.0.1 -N &
+sudo ssh -f -N -p ${LOCAL_PORT} -L 443:${HOST}:443 -i ${EC2_KEY} ec2-user@127.0.0.1
+
+echo ""
 sleep 1
 echo ""
 echo "Open the following URL in your browser to access the dashboard:"
