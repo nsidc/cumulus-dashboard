@@ -40,7 +40,7 @@ SESSION_ID=$(read <&3 line | awk '{print $5}')
 
 ssh -p ${LOCAL_PORT} -L 8000:${HOST}:443 -i ${EC2_KEY} ec2-user@127.0.0.1 -N &
 
-URL=https://${HOST}:8000/sbx/dashboard/${PREFIX}-dashboard/index.html
+URL=https://${HOST}/sbx/dashboard/${PREFIX}-dashboard/index.html
 echo "URL=${URL}"
 
 function cleanup() {
