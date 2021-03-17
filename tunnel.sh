@@ -25,28 +25,52 @@ echo "EC2_KEY=${EC2_KEY}"
 echo "HOST=${HOST}"
 echo "PREFIX=${PREFIX}"
 
+PRIOR_SESSION_IDS=$(aws --profile=${AWS_PROFILE} ssm describe-sessions \
+                        --state Active \
+                        --filters key=Target,value=${INSTANCE_ID} \
+                        --query 'Sessions[*].SessionId' \
+                        --output text)
+
 aws --profile=${AWS_PROFILE} ssm start-session \
     --target ${INSTANCE_ID} \
     --document-name AWS-StartPortForwardingSession \
-    --parameters portNumber=22,localPortNumber=${LOCAL_PORT} > backingfile &
+    --parameters portNumber=22,localPortNumber=${LOCAL_PORT} &
 
 sleep 5
 
-exec 3< backingfile
-rm backingfile
-
-read <&3 line
-SESSION_ID=$(read <&3 line | awk '{print $5}')
-
-sudo ssh -p ${LOCAL_PORT} -L 443:${HOST}:443 -i ${EC2_KEY} ec2-user@127.0.0.1 -N &
-
-URL=https://${HOST}/sbx/dashboard/${PREFIX}-dashboard/index.html
-echo "URL=${URL}"
+SESSION_IDS=$(aws --profile=${AWS_PROFILE} ssm describe-sessions \
+                  --state Active \
+                  --filters key=Target,value=${INSTANCE_ID} \
+                  --query 'Sessions[*].SessionId' \
+                  --output text)
 
 function cleanup() {
-    aws --profile=${AWS_PROFILE} ssm terminate-session --session-id "${SESSION_ID}"
+    echo ""
+    for SESSION_ID in ${SESSION_IDS}; do
+        if [[ "${PRIOR_SESSION_IDS}" =~ "${SESSION_ID}" ]]; then
+            echo ""
+        else
+            echo "Cleaning up ssm session ${SESSION_ID}"
+            aws --profile=${AWS_PROFILE} ssm terminate-session --session-id "${SESSION_ID}" > /dev/null
+        fi
+    done
+    exit 0
 }
 
 trap cleanup SIGINT
+
+echo ""
+echo "This script must use \`sudo ssh\` to bind your host's port 443 to port 443 on the SSM host."
+echo "You may be prompted for your password."
+read -p "Press ^C to exit, or Enter to continue. " continue
+echo ""
+
+sudo ssh -p ${LOCAL_PORT} -L 443:${HOST}:443 -i ${EC2_KEY} ec2-user@127.0.0.1 -N &
+sleep 1
+echo ""
+echo "Open the following URL in your browser to access the dashboard:"
+echo "https://${HOST}/sbx/dashboard/${PREFIX}-dashboard/index.html"
+echo ""
+echo "Press ^C to close the tunnel."
 
 sleep 86400
