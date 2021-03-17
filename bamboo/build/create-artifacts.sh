@@ -34,7 +34,7 @@ tar -cvzf artifacts/cumulus-dashboard-src.tar.gz cumulus-dashboard
 
 docker build -t cumulus-dashboard:nsidc cumulus-dashboard
 
-for stage in development SIT UAT PROD; do
+for stage in development; do
     APIROOT_VAR=APIROOT_${stage}
     APIROOT=${!APIROOT_VAR}
 
