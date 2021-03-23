@@ -82,7 +82,7 @@ Requirements:
 Run:
 
 ```
-export APIROOT=https://${API_SUBDOMAIN}.execute-api.us-west-2.amazonaws.com:8000/sbx/
+export APIROOT=https://${API_SUBDOMAIN}.execute-api.us-west-2.amazonaws.com/sbx/
 docker-compose up
 ```
 
@@ -99,7 +99,7 @@ Run:
 ```
 nvm use
 npm install # install dependencies
-APIROOT=https://${API_SUBDOMAIN}.execute-api.us-west-2.amazonaws.com:8000/sbx/ npm run serve
+APIROOT=https://${API_SUBDOMAIN}.execute-api.us-west-2.amazonaws.com/sbx/ npm run serve
 ```
 
 ## 6. Navigate to http://localhost:3000 in your browser, log in via EDL
