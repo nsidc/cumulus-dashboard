@@ -16,7 +16,7 @@ then
     exit 1
 fi
 
-INSTANCE_ID=$(aws --profile=${AWS_PROFILE} ec2 describe-instances --max-items 1 --filters "Name=tag-value,Values=${PREFIX}-CumulusECSCluster" | jq -r '.Reservations[0].Instances[0].InstanceId')
+INSTANCE_ID=$(aws --profile=${AWS_PROFILE} ec2 describe-instances --max-items 1 --filters "Name=tag-value,Values=${PREFIX}-CumulusECSCluster" "Name=instance-state-name,Values=running" | jq -r '.Reservations[0].Instances[0].InstanceId')
 
 echo "Opening tunnel with values:"
 echo "AWS_PROFILE=${AWS_PROFILE}"
