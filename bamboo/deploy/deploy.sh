@@ -31,4 +31,4 @@ docker run \
     --volume $(pwd)/aws:/dashboard/aws \
     --volume $(pwd)/dist:/dashboard/dist \
     cumulus-dashboard:nsidc \
-    bash -c "aws s3 sync --delete dist s3://${DEPLOY_NAME}-cumulus-${MATURITY}-dashboard"
+    bash -c "aws s3 rm s3://${DEPLOY_NAME}-cumulus-${MATURITY}-dashboard/ --recursive --include '*' && aws s3 sync --delete dist s3://${DEPLOY_NAME}-cumulus-${MATURITY}-dashboard"
