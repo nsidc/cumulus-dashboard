@@ -62,14 +62,14 @@ for stage in development SIT UAT PROD; do
     ES_DISTRIBUTION_TARGET_PATTERN_VAR=ES_DISTRIBUTION_TARGET_PATTERN_${stage}
     ES_DISTRIBUTION_TARGET_PATTERN=${!ES_DISTRIBUTION_TARGET_PATTERN_VAR}
 
-    SHOW_DISTRIBUTION_API_METRICS=${SHOW_DISTRIBUTION_API_METRICS}
-
     if [ ${stage} = "development" ]; then
         cumulus_api=true
         AUTH_METHOD=earthdata
+        SHOW_DISTRIBUTION_API_METRICS=false
     else
         cumulus_api=${SERVED_BY_CUMULUS_API}
         AUTH_METHOD=launchpad
+        SHOW_DISTRIBUTION_API_METRICS=true
     fi
 
     docker run \
