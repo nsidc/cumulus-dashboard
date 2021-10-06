@@ -62,6 +62,8 @@ for stage in development SIT UAT PROD; do
     ES_DISTRIBUTION_TARGET_PATTERN_VAR=ES_DISTRIBUTION_TARGET_PATTERN_${stage}
     ES_DISTRIBUTION_TARGET_PATTERN=${!ES_DISTRIBUTION_TARGET_PATTERN_VAR}
 
+    SHOW_DISTRIBUTION_API_METRICS=${SHOW_DISTRIBUTION_API_METRICS}
+
     if [ ${stage} = "development" ]; then
         cumulus_api=true
         AUTH_METHOD=earthdata
@@ -74,6 +76,27 @@ for stage in development SIT UAT PROD; do
         --rm \
         --volume $(pwd)/artifacts:/artifacts \
         cumulus-dashboard:nsidc \
-        bash -c "set -x; KIBANAROOT=${KIBANAROOT} ESROOT=${ESROOT} ES_USER=${ES_USER} ES_PASSWORD=${ES_PASSWORD} ES_CLOUDWATCH_TARGET_PATTERN=${ES_CLOUDWATCH_TARGET_PATTERN} ES_DISTRIBUTION_TARGET_PATTERN=${ES_DISTRIBUTION_TARGET_PATTERN} APIROOT=${APIROOT} STAGE=${stage} SERVED_BY_CUMULUS_API=${cumulus_api} DAAC_NAME=${DAAC_NAME} HIDE_PDR=${HIDE_PDR} LABELS=${LABELS} AUTH_METHOD=${AUTH_METHOD} npm run build;\
+        bash -c "set -x; \
+          \
+          APIROOT=${APIROOT} \
+          AUTH_METHOD=${AUTH_METHOD} \
+          AWS_REGION=us-west-2 \
+          DAAC_NAME=${DAAC_NAME} \
+          HIDE_PDR=${HIDE_PDR} \
+          LABELS=${LABELS} \
+          STAGE=${stage} \
+          \
+          ESROOT=${ESROOT} \
+          ES_PASSWORD=${ES_PASSWORD} \
+          ES_USER=${ES_USER} \
+          ES_CLOUDWATCH_TARGET_PATTERN=${ES_CLOUDWATCH_TARGET_PATTERN} \
+          ES_DISTRIBUTION_TARGET_PATTERN=${ES_DISTRIBUTION_TARGET_PATTERN} \
+          KIBANAROOT=${KIBANAROOT} \
+          SHOW_DISTRIBUTION_API_METRICS=${SHOW_DISTRIBUTION_API_METRICS} \
+          \
+          SERVED_BY_CUMULUS_API=${cumulus_api} \
+          \
+          npm run build;\
+          \
                  tar -cvzf /artifacts/cumulus-dashboard-dist-${stage}.tar.gz dist"
 done
