@@ -12,6 +12,12 @@ set -e
 # ESROOT_SIT=${bamboo.ESROOT_SIT}
 # ESROOT_UAT=${bamboo.ESROOT_UAT}
 # ESROOT_development=${bamboo.ESROOT_development}
+# ES_CLOUDWATCH_TARGET_PATTERN_PROD=${bamboo.ES_CLOUDWATCH_TARGET_PATTERN_PROD}
+# ES_CLOUDWATCH_TARGET_PATTERN_SIT=${bamboo.ES_CLOUDWATCH_TARGET_PATTERN_SIT}
+# ES_CLOUDWATCH_TARGET_PATTERN_UAT=${bamboo.ES_CLOUDWATCH_TARGET_PATTERN_UAT}
+# ES_DISTRIBUTION_TARGET_PATTERN_PROD=${bamboo.ES_DISTRIBUTION_TARGET_PATTERN_PROD}
+# ES_DISTRIBUTION_TARGET_PATTERN_SIT=${bamboo.ES_DISTRIBUTION_TARGET_PATTERN_SIT}
+# ES_DISTRIBUTION_TARGET_PATTERN_UAT=${bamboo.ES_DISTRIBUTION_TARGET_PATTERN_UAT}
 # ES_PASSWORD_PROD=${bamboo.ES_PASSWORD_PROD}
 # ES_PASSWORD_SIT=${bamboo.ES_PASSWORD_SIT}
 # ES_PASSWORD_UAT=${bamboo.ES_PASSWORD_UAT}
@@ -50,18 +56,47 @@ for stage in development SIT UAT PROD; do
     ES_PASSWORD_VAR=ES_PASSWORD_${stage}
     ES_PASSWORD=${!ES_PASSWORD_VAR}
 
+    ES_CLOUDWATCH_TARGET_PATTERN_VAR=ES_CLOUDWATCH_TARGET_PATTERN_${stage}
+    ES_CLOUDWATCH_TARGET_PATTERN=${!ES_CLOUDWATCH_TARGET_PATTERN_VAR}
+
+    ES_DISTRIBUTION_TARGET_PATTERN_VAR=ES_DISTRIBUTION_TARGET_PATTERN_${stage}
+    ES_DISTRIBUTION_TARGET_PATTERN=${!ES_DISTRIBUTION_TARGET_PATTERN_VAR}
+
     if [ ${stage} = "development" ]; then
         cumulus_api=true
         AUTH_METHOD=earthdata
+        SHOW_DISTRIBUTION_API_METRICS=false
     else
         cumulus_api=${SERVED_BY_CUMULUS_API}
         AUTH_METHOD=launchpad
+        SHOW_DISTRIBUTION_API_METRICS=true
     fi
 
     docker run \
         --rm \
         --volume $(pwd)/artifacts:/artifacts \
         cumulus-dashboard:nsidc \
-        bash -c "set -x; KIBANAROOT=${KIBANAROOT} ESROOT=${ESROOT} ES_USER=${ES_USER} ES_PASSWORD=${ES_PASSWORD} APIROOT=${APIROOT} STAGE=${stage} SERVED_BY_CUMULUS_API=${cumulus_api} DAAC_NAME=${DAAC_NAME} HIDE_PDR=${HIDE_PDR} LABELS=${LABELS} AUTH_METHOD=${AUTH_METHOD} npm run build;\
+        bash -c "set -x; \
+          \
+          APIROOT=${APIROOT} \
+          AUTH_METHOD=${AUTH_METHOD} \
+          AWS_REGION=us-west-2 \
+          DAAC_NAME=${DAAC_NAME} \
+          HIDE_PDR=${HIDE_PDR} \
+          LABELS=${LABELS} \
+          STAGE=${stage} \
+          \
+          ESROOT=${ESROOT} \
+          ES_PASSWORD=${ES_PASSWORD} \
+          ES_USER=${ES_USER} \
+          ES_CLOUDWATCH_TARGET_PATTERN=${ES_CLOUDWATCH_TARGET_PATTERN} \
+          ES_DISTRIBUTION_TARGET_PATTERN=${ES_DISTRIBUTION_TARGET_PATTERN} \
+          KIBANAROOT=${KIBANAROOT} \
+          SHOW_DISTRIBUTION_API_METRICS=${SHOW_DISTRIBUTION_API_METRICS} \
+          \
+          SERVED_BY_CUMULUS_API=${cumulus_api} \
+          \
+          npm run build;\
+          \
                  tar -cvzf /artifacts/cumulus-dashboard-dist-${stage}.tar.gz dist"
 done
