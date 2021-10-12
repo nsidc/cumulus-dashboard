@@ -65,7 +65,7 @@ for stage in development SIT UAT PROD; do
     if [ ${stage} = "development" ]; then
         cumulus_api=true
         AUTH_METHOD=earthdata
-        SHOW_DISTRIBUTION_API_METRICS=false
+        SHOW_DISTRIBUTION_API_METRICS=
     else
         cumulus_api=${SERVED_BY_CUMULUS_API}
         AUTH_METHOD=launchpad
