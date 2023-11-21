@@ -79,6 +79,7 @@ for stage in development SIT UAT PROD; do
         bash -c "set -x; \
           \
           APIROOT=${APIROOT} \
+          ENABLE_RECOVERY=true \
           AUTH_METHOD=${AUTH_METHOD} \
           AWS_REGION=us-west-2 \
           DAAC_NAME=${DAAC_NAME} \
