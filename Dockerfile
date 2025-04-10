@@ -12,7 +12,7 @@ RUN mkdir /dashboard
 WORKDIR /dashboard
 
 COPY package.json package-lock.json ./
-RUN npm ci
+RUN npm ci --legacy-peer-deps --no-optional
 
 COPY . .
 
