@@ -41,44 +41,45 @@ tar -cvzf artifacts/cumulus-dashboard-src.tar.gz cumulus-dashboard
 docker build -t cumulus-dashboard:nsidc cumulus-dashboard
 
 for stage in development SIT UAT PROD; do
-    APIROOT_VAR=APIROOT_${stage}
-    APIROOT=${!APIROOT_VAR}
+  APIROOT_VAR=APIROOT_${stage}
+  APIROOT=${!APIROOT_VAR}
 
-    KIBANAROOT_VAR=KIBANAROOT_${stage}
-    KIBANAROOT=${!KIBANAROOT_VAR}
+  KIBANAROOT_VAR=KIBANAROOT_${stage}
+  KIBANAROOT=${!KIBANAROOT_VAR}
 
-    ESROOT_VAR=ESROOT_${stage}
-    ESROOT=${!ESROOT_VAR}
+  ESROOT_VAR=ESROOT_${stage}
+  ESROOT=${!ESROOT_VAR}
 
-    ES_USER_VAR=ES_USER_${stage}
-    ES_USER=${!ES_USER_VAR}
+  ES_USER_VAR=ES_USER_${stage}
+  ES_USER=${!ES_USER_VAR}
 
-    ES_PASSWORD_VAR=ES_PASSWORD_${stage}
-    ES_PASSWORD=${!ES_PASSWORD_VAR}
+  ES_PASSWORD_VAR=ES_PASSWORD_${stage}
+  ES_PASSWORD=${!ES_PASSWORD_VAR}
 
-    ES_CLOUDWATCH_TARGET_PATTERN_VAR=ES_CLOUDWATCH_TARGET_PATTERN_${stage}
-    ES_CLOUDWATCH_TARGET_PATTERN=${!ES_CLOUDWATCH_TARGET_PATTERN_VAR}
+  ES_CLOUDWATCH_TARGET_PATTERN_VAR=ES_CLOUDWATCH_TARGET_PATTERN_${stage}
+  ES_CLOUDWATCH_TARGET_PATTERN=${!ES_CLOUDWATCH_TARGET_PATTERN_VAR}
 
-    ES_DISTRIBUTION_TARGET_PATTERN_VAR=ES_DISTRIBUTION_TARGET_PATTERN_${stage}
-    ES_DISTRIBUTION_TARGET_PATTERN=${!ES_DISTRIBUTION_TARGET_PATTERN_VAR}
+  ES_DISTRIBUTION_TARGET_PATTERN_VAR=ES_DISTRIBUTION_TARGET_PATTERN_${stage}
+  ES_DISTRIBUTION_TARGET_PATTERN=${!ES_DISTRIBUTION_TARGET_PATTERN_VAR}
 
-    if [ ${stage} = "development" ]; then
-        cumulus_api=true
-        AUTH_METHOD=earthdata
-        SHOW_DISTRIBUTION_API_METRICS=
-    else
-        cumulus_api=${SERVED_BY_CUMULUS_API}
-        AUTH_METHOD=launchpad
-        SHOW_DISTRIBUTION_API_METRICS=true
-    fi
+  if [ ${stage} = "development" ]; then
+    cumulus_api=true
+    AUTH_METHOD=earthdata
+    SHOW_DISTRIBUTION_API_METRICS=
+  else
+    cumulus_api=${SERVED_BY_CUMULUS_API}
+    AUTH_METHOD=launchpad
+    SHOW_DISTRIBUTION_API_METRICS=true
+  fi
 
-    docker run \
-        --rm \
-        --volume $(pwd)/artifacts:/artifacts \
-        cumulus-dashboard:nsidc \
-        bash -c "set -x; \
+  docker run \
+    --rm \
+    --volume $(pwd)/artifacts:/artifacts \
+    cumulus-dashboard:nsidc \
+    bash -c "set -x; \
           \
           APIROOT=${APIROOT} \
+          INITIAL_DATE_RANGE_IN_DAYS=All \
           ENABLE_RECOVERY=true \
           AUTH_METHOD=${AUTH_METHOD} \
           AWS_REGION=us-west-2 \
